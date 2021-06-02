@@ -1,26 +1,29 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootContextLoader;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class BeanController {
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    public BeanController(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
 
     @GetMapping("/")
-    @ResponseBody
     public ResponseEntity<String> getBean() {
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
-        annotationConfigApplicationContext.register(MyConfig.class);
-        annotationConfigApplicationContext.refresh();
-        MyBean mb1 = annotationConfigApplicationContext.getBean(MyBean.class);
+        MyBean mb1 = applicationContext.getBean(MyBean.class);
         System.out.println(mb1.hashCode());
-        annotationConfigApplicationContext.close();
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Hello World");
     }
-
 }
