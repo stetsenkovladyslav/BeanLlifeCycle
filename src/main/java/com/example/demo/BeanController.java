@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +15,6 @@ public class BeanController {
     public BeanController(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-
-
     @GetMapping("/")
     public ResponseEntity<String> getBean() {
         MyBean mb1 = applicationContext.getBean(MyBean.class);
